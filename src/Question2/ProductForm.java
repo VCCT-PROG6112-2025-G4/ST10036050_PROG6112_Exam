@@ -157,8 +157,8 @@ public class ProductForm extends javax.swing.JFrame {
     private void ULoadBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ULoadBtnActionPerformed
         // TODO add your handling code here:
         
-        
-        int[][] salesData = productSales.GetProductSales();
+        IProductSales ps = new ProductSales();
+        int[][] salesData = ps.GetProductSales();
         
         StringBuilder sb = new StringBuilder();
         sb.append("PRODUCT SALES DATA\n");
@@ -176,15 +176,14 @@ public class ProductForm extends javax.swing.JFrame {
         txtReport.setText(sb.toString());
         
         // Update results
-        updateResults();
-    }
+        
     
-    private void updateResults() {
-        int totalSales = productSales.GetTotalSales();
-        double averageSales = productSales.GetAverageSales();
-        int salesOverLimit = productSales.GetSalesOverLimit();
-        int salesUnderLimit = productSales.GetSalesUnderLimit();
-        int yearsProcessed = productSales.GetProduct3Processed();
+
+        int totalSales = ps.GetTotalSales();
+        double averageSales = ps.GetAverageSales();
+        int salesOverLimit = ps.GetSalesOverLimit();
+        int salesUnderLimit = ps.GetSalesUnderLimit();
+        int yearsProcessed = ps.GetProduct3Processed();
         
         txtReport.append("Total Sales: " + totalSales);
         txtReport.append(String.format("Average Sales: %.0f", averageSales));
@@ -227,7 +226,7 @@ public class ProductForm extends javax.swing.JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new Question2.ProductSalesGUI().setVisible(true);
+                new Question2.ProductForm().setVisible(true);
             }
         });
     
