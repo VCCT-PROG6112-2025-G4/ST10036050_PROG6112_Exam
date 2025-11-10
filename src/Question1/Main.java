@@ -8,7 +8,7 @@ package Question1;
  *
  * @author maxwe
  */
-public class ST10036050_PROG6112_Exam {
+public class Main {
 
     /**
      * @param args the command line arguments
@@ -20,9 +20,14 @@ public class ST10036050_PROG6112_Exam {
             {250, 200, 600}   // Year 2: Quarter 1, Quarter 2, Quarter 3
         };
         
+        // Create ProductSales object
+        ProductSales salesCalculator = new ProductSales();
         
-        
-        
+        // Calculate statistics
+        int totalSales = salesCalculator.TotalSales(productSales);
+        double averageSales = salesCalculator.AverageSales(productSales);
+        int maxSale = salesCalculator.MaxSale(productSales);
+        int minSale = salesCalculator.MinSale(productSales);
         
         
     }
