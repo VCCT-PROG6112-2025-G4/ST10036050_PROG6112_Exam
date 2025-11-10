@@ -12,13 +12,13 @@ package Question2;
     private int[][] productSales;
     private final int SALES_LIMIT = 500;
     
-//    public ProductSales() {
-//        // Initialize with sample data
-//        this.productSales = new int[][] {
-//            {300, 150, 700},  
-//            {250, 200, 600}   
-//        };
-//    }
+    public ProductSales() {
+        // Initialize with sample data
+        this.productSales = new int[][] {
+            {300, 150, 700},  
+            {250, 200, 600}   
+        };
+    }
     
     @Override
     public int[][] GetProductSales() {
