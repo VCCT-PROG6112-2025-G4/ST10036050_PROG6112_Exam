@@ -34,7 +34,11 @@ public class ProductForm extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        FileExitBtn = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        LoadDataBtn = new javax.swing.JMenuItem();
+        SaveDataBtn = new javax.swing.JMenuItem();
+        EditClearBtn = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -81,9 +85,28 @@ public class ProductForm extends javax.swing.JFrame {
         );
 
         jMenu1.setText("File");
+        jMenu1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu1ActionPerformed(evt);
+            }
+        });
+
+        FileExitBtn.setText("Exit");
+        jMenu1.add(FileExitBtn);
+
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Edit");
+
+        LoadDataBtn.setText("Load Product Data");
+        jMenu2.add(LoadDataBtn);
+
+        SaveDataBtn.setText("Save Product Data");
+        jMenu2.add(SaveDataBtn);
+
+        EditClearBtn.setText("Clear");
+        jMenu2.add(EditClearBtn);
+
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -109,7 +132,46 @@ public class ProductForm extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        int[][] salesData = productSales.GetProductSales();
+        
+        StringBuilder sb = new StringBuilder();
+        sb.append("PRODUCT SALES DATA\n");
+        sb.append("==================\n\n");
+        sb.append(String.format("%-15s %-12s %-12s %-12s\n", 
+            "", "Microphone", "Speakers", "Mixing Desk"));
+        sb.append(String.format("%-15s %-12s %-12s %-12s\n", 
+            "", "---------", "--------", "-----------"));
+        
+        for (int i = 0; i < salesData.length; i++) {
+            sb.append(String.format("Sales for year %d %-12d %-12d %-12d\n", 
+                i + 1, salesData[i][0], salesData[i][1], salesData[i][2]));
+        }
+        
+        textArea.setText(sb.toString());
+        
+        // Update results
+        updateResults();
+    }
+    
+    private void updateResults() {
+        int totalSales = productSales.GetTotalSales();
+        double averageSales = productSales.GetAverageSales();
+        int salesOverLimit = productSales.GetSalesOverLimit();
+        int salesUnderLimit = productSales.GetSalesUnderLimit();
+        int yearsProcessed = productSales.GetProduct3Processed();
+        
+        totalSalesLabel.setText("Total Sales: " + totalSales);
+        averageSalesLabel.setText(String.format("Average Sales: %.0f", averageSales));
+        salesOverLimitLabel.setText("Sales over limit: " + salesOverLimit);
+        salesUnderLimitLabel.setText("Sales under limit: " + salesUnderLimit);
+        yearsProcessedLabel.setText("Years Processed: " + yearsProcessed);
+    
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_jMenu1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -147,6 +209,10 @@ public class ProductForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem EditClearBtn;
+    private javax.swing.JMenuItem FileExitBtn;
+    private javax.swing.JMenuItem LoadDataBtn;
+    private javax.swing.JMenuItem SaveDataBtn;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
@@ -157,4 +223,199 @@ public class ProductForm extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
+}
+
+
+public class ProductSalesGUI extends JFrame {
+    private ProductSales productSales;
+    private JTextArea textArea;
+    private JLabel yearsProcessedLabel;
+    private JLabel totalSalesLabel;
+    private JLabel averageSalesLabel;
+    private JLabel salesOverLimitLabel;
+    private JLabel salesUnderLimitLabel;
+    
+    public ProductSalesGUI() {
+        productSales = new ProductSales();
+        initializeGUI();
+    }
+    
+    private void initializeGUI() {
+        setTitle("Product Sales Application");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(600, 500);
+        setLocationRelativeTo(null);
+        
+        // Create menu bar
+        createMenuBar();
+        
+        // Create main panel
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        
+        // Create button panel
+        JPanel buttonPanel = new JPanel(new FlowLayout());
+        JButton loadButton = new JButton("Load Product Data");
+        JButton saveButton = new JButton("Save Product Data");
+        
+        buttonPanel.add(loadButton);
+        buttonPanel.add(saveButton);
+        
+        // Create text area
+        textArea = new JTextArea(15, 40);
+        textArea.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        
+        // Create results panel
+        JPanel resultsPanel = new JPanel(new GridLayout(5, 2, 5, 5));
+        resultsPanel.setBorder(BorderFactory.createTitledBorder("Sales Results"));
+        
+        totalSalesLabel = new JLabel("Total Sales: 0");
+        averageSalesLabel = new JLabel("Average Sales: 0");
+        salesOverLimitLabel = new JLabel("Sales over limit: 0");
+        salesUnderLimitLabel = new JLabel("Sales under limit: 0");
+        yearsProcessedLabel = new JLabel("Years Processed: 0");
+        
+        resultsPanel.add(totalSalesLabel);
+        resultsPanel.add(averageSalesLabel);
+        resultsPanel.add(salesOverLimitLabel);
+        resultsPanel.add(salesUnderLimitLabel);
+        resultsPanel.add(yearsProcessedLabel);
+        
+        // Add components to main panel
+        mainPanel.add(buttonPanel, BorderLayout.NORTH);
+        mainPanel.add(scrollPane, BorderLayout.CENTER);
+        mainPanel.add(resultsPanel, BorderLayout.SOUTH);
+        
+        add(mainPanel);
+        
+        // Add button listeners
+        loadButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                loadProductData();
+            }
+        });
+        
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                saveProductData();
+            }
+        });
+    }
+    
+    private void createMenuBar() {
+        JMenuBar menuBar = new JMenuBar();
+        
+        // File menu
+        JMenu fileMenu = new JMenu("File");
+        JMenuItem exitMenuItem = new JMenuItem("Exit");
+        
+        // Tools menu
+        JMenu toolsMenu = new JMenu("Tools");
+        JMenuItem loadMenuItem = new JMenuItem("Load Product Data");
+        JMenuItem saveMenuItem = new JMenuItem("Save Product Data");
+        JMenuItem clearMenuItem = new JMenuItem("Clear");
+        
+        fileMenu.add(exitMenuItem);
+        toolsMenu.add(loadMenuItem);
+        toolsMenu.add(saveMenuItem);
+        toolsMenu.add(clearMenuItem);
+        
+        menuBar.add(fileMenu);
+        menuBar.add(toolsMenu);
+        
+        setJMenuBar(menuBar);
+        
+        // Add menu item listeners
+        exitMenuItem.addActionListener(e -> System.exit(0));
+        
+        loadMenuItem.addActionListener(e -> loadProductData());
+        
+        saveMenuItem.addActionListener(e -> saveProductData());
+        
+        clearMenuItem.addActionListener(e -> {
+            textArea.setText("");
+            yearsProcessedLabel.setText("Years Processed: 0");
+            totalSalesLabel.setText("Total Sales: 0");
+            averageSalesLabel.setText("Average Sales: 0");
+            salesOverLimitLabel.setText("Sales over limit: 0");
+            salesUnderLimitLabel.setText("Sales under limit: 0");
+        });
+    }
+    
+    private void loadProductData() {
+        // Display the product sales data in table format
+        int[][] salesData = productSales.GetProductSales();
+        
+        StringBuilder sb = new StringBuilder();
+        sb.append("PRODUCT SALES DATA\n");
+        sb.append("==================\n\n");
+        sb.append(String.format("%-15s %-12s %-12s %-12s\n", 
+            "", "Microphone", "Speakers", "Mixing Desk"));
+        sb.append(String.format("%-15s %-12s %-12s %-12s\n", 
+            "", "---------", "--------", "-----------"));
+        
+        for (int i = 0; i < salesData.length; i++) {
+            sb.append(String.format("Sales for year %d %-12d %-12d %-12d\n", 
+                i + 1, salesData[i][0], salesData[i][1], salesData[i][2]));
+        }
+        
+        textArea.setText(sb.toString());
+        
+        // Update results
+        updateResults();
+    }
+    
+    private void updateResults() {
+        int totalSales = productSales.GetTotalSales();
+        double averageSales = productSales.GetAverageSales();
+        int salesOverLimit = productSales.GetSalesOverLimit();
+        int salesUnderLimit = productSales.GetSalesUnderLimit();
+        int yearsProcessed = productSales.GetProduct3Processed();
+        
+        totalSalesLabel.setText("Total Sales: " + totalSales);
+        averageSalesLabel.setText(String.format("Average Sales: %.0f", averageSales));
+        salesOverLimitLabel.setText("Sales over limit: " + salesOverLimit);
+        salesUnderLimitLabel.setText("Sales under limit: " + salesUnderLimit);
+        yearsProcessedLabel.setText("Years Processed: " + yearsProcessed);
+    }
+    
+    private void saveProductData() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("data.txt"))) {
+            writer.write("DATA LOG");
+            writer.newLine();
+            writer.write("*****LOG");
+            writer.newLine();
+            writer.write("Total Sales: " + productSales.GetTotalSales());
+            writer.newLine();
+            writer.write("Average Sales: " + String.format("%.0f", productSales.GetAverageSales()));
+            writer.newLine();
+            writer.write("Sales over Limit: " + productSales.GetSalesOverLimit());
+            writer.newLine();
+            writer.write("Sales under Limit: " + productSales.GetSalesUnderLimit());
+            writer.newLine();
+            writer.write("***********");
+            
+            JOptionPane.showMessageDialog(this, 
+                "Data saved successfully to data.txt", 
+                "Save Successful", 
+                JOptionPane.INFORMATION_MESSAGE);
+                
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, 
+                "Error saving file: " + ex.getMessage(), 
+                "Save Error", 
+                JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new ProductSalesGUI().setVisible(true);
+            }
+        });
+    }
 }
