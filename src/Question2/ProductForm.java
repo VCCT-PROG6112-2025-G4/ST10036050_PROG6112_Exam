@@ -8,15 +8,24 @@ package Question2;
  *
  * @author maxwe
  */
+
+import java.util.*;
+import java.io.*;
+import javax.swing.*;
 public class ProductForm extends javax.swing.JFrame {
 
     /**
      * Creates new form ProductForm
      */
+   
+    
+    
     public ProductForm() {
+        
         initComponents();
     }
-
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -27,10 +36,10 @@ public class ProductForm extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        ULoadBtn = new javax.swing.JButton();
+        USaveBtn = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtReport = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -42,18 +51,23 @@ public class ProductForm extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton1.setText("Load Product Data");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        ULoadBtn.setText("Load Product Data");
+        ULoadBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                ULoadBtnActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Save Product Data");
+        USaveBtn.setText("Save Product Data");
+        USaveBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                USaveBtnActionPerformed(evt);
+            }
+        });
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        txtReport.setColumns(20);
+        txtReport.setRows(5);
+        jScrollPane1.setViewportView(txtReport);
 
         jLabel1.setText("Years Processed:");
 
@@ -67,17 +81,17 @@ public class ProductForm extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(USaveBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(ULoadBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(52, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addComponent(jButton1)
+                .addComponent(ULoadBtn)
                 .addGap(32, 32, 32)
-                .addComponent(jButton2)
+                .addComponent(USaveBtn)
                 .addGap(40, 40, 40)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
@@ -97,6 +111,11 @@ public class ProductForm extends javax.swing.JFrame {
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Edit");
+        jMenu2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu2ActionPerformed(evt);
+            }
+        });
 
         LoadDataBtn.setText("Load Product Data");
         jMenu2.add(LoadDataBtn);
@@ -105,6 +124,11 @@ public class ProductForm extends javax.swing.JFrame {
         jMenu2.add(SaveDataBtn);
 
         EditClearBtn.setText("Clear");
+        EditClearBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EditClearBtnActionPerformed(evt);
+            }
+        });
         jMenu2.add(EditClearBtn);
 
         jMenuBar1.add(jMenu2);
@@ -130,8 +154,10 @@ public class ProductForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void ULoadBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ULoadBtnActionPerformed
         // TODO add your handling code here:
+        
+        
         int[][] salesData = productSales.GetProductSales();
         
         StringBuilder sb = new StringBuilder();
@@ -147,7 +173,7 @@ public class ProductForm extends javax.swing.JFrame {
                 i + 1, salesData[i][0], salesData[i][1], salesData[i][2]));
         }
         
-        textArea.setText(sb.toString());
+        txtReport.setText(sb.toString());
         
         // Update results
         updateResults();
@@ -160,262 +186,78 @@ public class ProductForm extends javax.swing.JFrame {
         int salesUnderLimit = productSales.GetSalesUnderLimit();
         int yearsProcessed = productSales.GetProduct3Processed();
         
-        totalSalesLabel.setText("Total Sales: " + totalSales);
-        averageSalesLabel.setText(String.format("Average Sales: %.0f", averageSales));
-        salesOverLimitLabel.setText("Sales over limit: " + salesOverLimit);
-        salesUnderLimitLabel.setText("Sales under limit: " + salesUnderLimit);
-        yearsProcessedLabel.setText("Years Processed: " + yearsProcessed);
+        txtReport.append("Total Sales: " + totalSales);
+        txtReport.append(String.format("Average Sales: %.0f", averageSales));
+        txtReport.append("Sales over limit: " + salesOverLimit);
+        txtReport.append("Sales under limit: " + salesUnderLimit);
+        txtReport.append("Years Processed: " + yearsProcessed);
     
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_ULoadBtnActionPerformed
 
     private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_jMenu1ActionPerformed
 
+    private void EditClearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditClearBtnActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_EditClearBtnActionPerformed
+
+    private void USaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_USaveBtnActionPerformed
+        String report = txtReport.getText();
+        
+        
+
+        try (FileWriter writer = new FileWriter("report.txt")) 
+        {      
+            writer.write("DATA LOG\n");
+            writer.write("********************************\n");
+            writer.write(report);
+            writer.write("********************************");
+            
+            JOptionPane.showMessageDialog(this, "Text saved successfully!");
+        } catch (IOException ex) 
+        {
+            JOptionPane.showMessageDialog(this, "Error saving text: " + ex.getMessage());
+        }
+
+    
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new Question2.ProductSalesGUI().setVisible(true);
+            }
+        });
+    
+    }//GEN-LAST:event_USaveBtnActionPerformed
+
+    private void jMenu2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu2ActionPerformed
+        // TODO add your handling code here:
+        txtReport.setText("");
+    }//GEN-LAST:event_jMenu2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ProductForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ProductForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ProductForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ProductForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ProductForm().setVisible(true);
-            }
-        });
-    }
+   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem EditClearBtn;
     private javax.swing.JMenuItem FileExitBtn;
     private javax.swing.JMenuItem LoadDataBtn;
     private javax.swing.JMenuItem SaveDataBtn;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton ULoadBtn;
+    private javax.swing.JButton USaveBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea txtReport;
     // End of variables declaration//GEN-END:variables
 }
 
 
-public class ProductSalesGUI extends JFrame {
-    private ProductSales productSales;
-    private JTextArea textArea;
-    private JLabel yearsProcessedLabel;
-    private JLabel totalSalesLabel;
-    private JLabel averageSalesLabel;
-    private JLabel salesOverLimitLabel;
-    private JLabel salesUnderLimitLabel;
-    
-    public ProductSalesGUI() {
-        productSales = new ProductSales();
-        initializeGUI();
-    }
-    
-    private void initializeGUI() {
-        setTitle("Product Sales Application");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(600, 500);
-        setLocationRelativeTo(null);
-        
-        // Create menu bar
-        createMenuBar();
-        
-        // Create main panel
-        JPanel mainPanel = new JPanel(new BorderLayout());
-        
-        // Create button panel
-        JPanel buttonPanel = new JPanel(new FlowLayout());
-        JButton loadButton = new JButton("Load Product Data");
-        JButton saveButton = new JButton("Save Product Data");
-        
-        buttonPanel.add(loadButton);
-        buttonPanel.add(saveButton);
-        
-        // Create text area
-        textArea = new JTextArea(15, 40);
-        textArea.setEditable(false);
-        JScrollPane scrollPane = new JScrollPane(textArea);
-        
-        // Create results panel
-        JPanel resultsPanel = new JPanel(new GridLayout(5, 2, 5, 5));
-        resultsPanel.setBorder(BorderFactory.createTitledBorder("Sales Results"));
-        
-        totalSalesLabel = new JLabel("Total Sales: 0");
-        averageSalesLabel = new JLabel("Average Sales: 0");
-        salesOverLimitLabel = new JLabel("Sales over limit: 0");
-        salesUnderLimitLabel = new JLabel("Sales under limit: 0");
-        yearsProcessedLabel = new JLabel("Years Processed: 0");
-        
-        resultsPanel.add(totalSalesLabel);
-        resultsPanel.add(averageSalesLabel);
-        resultsPanel.add(salesOverLimitLabel);
-        resultsPanel.add(salesUnderLimitLabel);
-        resultsPanel.add(yearsProcessedLabel);
-        
-        // Add components to main panel
-        mainPanel.add(buttonPanel, BorderLayout.NORTH);
-        mainPanel.add(scrollPane, BorderLayout.CENTER);
-        mainPanel.add(resultsPanel, BorderLayout.SOUTH);
-        
-        add(mainPanel);
-        
-        // Add button listeners
-        loadButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                loadProductData();
-            }
-        });
-        
-        saveButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                saveProductData();
-            }
-        });
-    }
-    
-    private void createMenuBar() {
-        JMenuBar menuBar = new JMenuBar();
-        
-        // File menu
-        JMenu fileMenu = new JMenu("File");
-        JMenuItem exitMenuItem = new JMenuItem("Exit");
-        
-        // Tools menu
-        JMenu toolsMenu = new JMenu("Tools");
-        JMenuItem loadMenuItem = new JMenuItem("Load Product Data");
-        JMenuItem saveMenuItem = new JMenuItem("Save Product Data");
-        JMenuItem clearMenuItem = new JMenuItem("Clear");
-        
-        fileMenu.add(exitMenuItem);
-        toolsMenu.add(loadMenuItem);
-        toolsMenu.add(saveMenuItem);
-        toolsMenu.add(clearMenuItem);
-        
-        menuBar.add(fileMenu);
-        menuBar.add(toolsMenu);
-        
-        setJMenuBar(menuBar);
-        
-        // Add menu item listeners
-        exitMenuItem.addActionListener(e -> System.exit(0));
-        
-        loadMenuItem.addActionListener(e -> loadProductData());
-        
-        saveMenuItem.addActionListener(e -> saveProductData());
-        
-        clearMenuItem.addActionListener(e -> {
-            textArea.setText("");
-            yearsProcessedLabel.setText("Years Processed: 0");
-            totalSalesLabel.setText("Total Sales: 0");
-            averageSalesLabel.setText("Average Sales: 0");
-            salesOverLimitLabel.setText("Sales over limit: 0");
-            salesUnderLimitLabel.setText("Sales under limit: 0");
-        });
-    }
-    
-    private void loadProductData() {
-        // Display the product sales data in table format
-        int[][] salesData = productSales.GetProductSales();
-        
-        StringBuilder sb = new StringBuilder();
-        sb.append("PRODUCT SALES DATA\n");
-        sb.append("==================\n\n");
-        sb.append(String.format("%-15s %-12s %-12s %-12s\n", 
-            "", "Microphone", "Speakers", "Mixing Desk"));
-        sb.append(String.format("%-15s %-12s %-12s %-12s\n", 
-            "", "---------", "--------", "-----------"));
-        
-        for (int i = 0; i < salesData.length; i++) {
-            sb.append(String.format("Sales for year %d %-12d %-12d %-12d\n", 
-                i + 1, salesData[i][0], salesData[i][1], salesData[i][2]));
-        }
-        
-        textArea.setText(sb.toString());
-        
-        // Update results
-        updateResults();
-    }
-    
-    private void updateResults() {
-        int totalSales = productSales.GetTotalSales();
-        double averageSales = productSales.GetAverageSales();
-        int salesOverLimit = productSales.GetSalesOverLimit();
-        int salesUnderLimit = productSales.GetSalesUnderLimit();
-        int yearsProcessed = productSales.GetProduct3Processed();
-        
-        totalSalesLabel.setText("Total Sales: " + totalSales);
-        averageSalesLabel.setText(String.format("Average Sales: %.0f", averageSales));
-        salesOverLimitLabel.setText("Sales over limit: " + salesOverLimit);
-        salesUnderLimitLabel.setText("Sales under limit: " + salesUnderLimit);
-        yearsProcessedLabel.setText("Years Processed: " + yearsProcessed);
-    }
-    
-    private void saveProductData() {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("data.txt"))) {
-            writer.write("DATA LOG");
-            writer.newLine();
-            writer.write("*****LOG");
-            writer.newLine();
-            writer.write("Total Sales: " + productSales.GetTotalSales());
-            writer.newLine();
-            writer.write("Average Sales: " + String.format("%.0f", productSales.GetAverageSales()));
-            writer.newLine();
-            writer.write("Sales over Limit: " + productSales.GetSalesOverLimit());
-            writer.newLine();
-            writer.write("Sales under Limit: " + productSales.GetSalesUnderLimit());
-            writer.newLine();
-            writer.write("***********");
-            
-            JOptionPane.showMessageDialog(this, 
-                "Data saved successfully to data.txt", 
-                "Save Successful", 
-                JOptionPane.INFORMATION_MESSAGE);
-                
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this, 
-                "Error saving file: " + ex.getMessage(), 
-                "Save Error", 
-                JOptionPane.ERROR_MESSAGE);
-        }
-    }
-    
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new ProductSalesGUI().setVisible(true);
-            }
-        });
-    }
-}
