@@ -14,21 +14,35 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // Initialize the 2D array with product sales data
+        //2D array with product sales data
         int[][] productSales = {
-            {300, 150, 700},  // Year 1: Quarter 1, Quarter 2, Quarter 3
-            {250, 200, 600}   // Year 2: Quarter 1, Quarter 2, Quarter 3
+            {300, 150, 700},  
+            {250, 200, 600}   
         };
         
-        // Create ProductSales object
         ProductSales salesCalculator = new ProductSales();
         
-        // Calculate statistics
+        //Calculate statistics
         int totalSales = salesCalculator.TotalSales(productSales);
         double averageSales = salesCalculator.AverageSales(productSales);
         int maxSale = salesCalculator.MaxSale(productSales);
         int minSale = salesCalculator.MinSale(productSales);
         
         
+    //Display the product sales report
+        displayReport(productSales, totalSales, averageSales, maxSale, minSale);
+    }
+    
+    public static void displayReport(int[][] productSales, int total, double average, int max, int min) {
+        System.out.println("PRODUCT SALES REPORT - 2025");
+        System.out.println("-----------------------------");
+        
+        
+        System.out.println();
+        System.out.printf("Total sales: %d\n", total);
+        System.out.printf("Average sales: %.0f\n", average);
+        System.out.printf("Maximum sale: %d\n", max);
+        System.out.printf("Minimum sale: %d\n", min);
+        System.out.println("-----------------------------");
     }
 }
