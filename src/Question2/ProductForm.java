@@ -220,16 +220,19 @@ public class ProductForm extends javax.swing.JFrame {
         {
             JOptionPane.showMessageDialog(this, "Error saving text: " + ex.getMessage());
         }
+        
 
-    
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new Question2.ProductForm().setVisible(true);
-            }
-        });
-    
+//    /**
+//     * @param args the command line arguments
+//     */
+//    public static void main(String[] args) {
+//        SwingUtilities.invokeLater(new Runnable() {
+//            @Override
+//            public void run() {
+//                new Question2.ProductForm().setVisible(true);
+//            }
+//        });
+//    
     }//GEN-LAST:event_USaveBtnActionPerformed
 
     private void jMenu2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu2ActionPerformed
@@ -240,6 +243,15 @@ public class ProductForm extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new Question2.ProductForm().setVisible(true);
+            }
+        });
+    
+    }   
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
