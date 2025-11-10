@@ -185,11 +185,11 @@ public class ProductForm extends javax.swing.JFrame {
         int salesUnderLimit = ps.GetSalesUnderLimit();
         int yearsProcessed = ps.GetProduct3Processed();
         
-        txtReport.append("Total Sales: " + totalSales);
-        txtReport.append(String.format("Average Sales: %.0f", averageSales));
-        txtReport.append("Sales over limit: " + salesOverLimit);
-        txtReport.append("Sales under limit: " + salesUnderLimit);
-        txtReport.append("Years Processed: " + yearsProcessed);
+        txtReport.append("Total Sales: " + totalSales + "\n");
+        txtReport.append(String.format("Average Sales: %.0f", averageSales) + "\n");
+        txtReport.append("Sales over limit: " + salesOverLimit + "\n");
+        txtReport.append("Sales under limit: " + salesUnderLimit + "\n");
+        txtReport.append("Years Processed: " + yearsProcessed + "\n");
     
     }//GEN-LAST:event_ULoadBtnActionPerformed
 

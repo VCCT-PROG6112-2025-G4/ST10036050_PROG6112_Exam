@@ -15,8 +15,8 @@ package Question2;
     public ProductSales() {
         // Initialize with sample data
         this.productSales = new int[][] {
-            {300, 150, 700},  // Year 1: Microphone, Speakers, Mixing Desk
-            {250, 200, 600}   // Year 2: Microphone, Speakers, Mixing Desk
+            {300, 150, 700},  
+            {250, 200, 600}   
         };
     }
     
